@@ -18,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
         model->select();
 
         ui->tableView->setModel(model);
+        ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        ui->tableView->setColumnHidden(0,true);
+        ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->tableView->setSortingEnabled(true);
     }
     else
     {
@@ -47,5 +51,12 @@ void MainWindow::on_btnRemove_clicked()
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
     currentRow = index.row();
+}
+
+
+void MainWindow::on_btnRefresh_clicked()
+{
+    model->select();
+    ui->tableView->selectRow(currentRow);
 }
 
