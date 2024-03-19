@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QString>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    db.close();
     delete ui;
 }
 
@@ -51,12 +53,30 @@ void MainWindow::on_btnRemove_clicked()
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
     currentRow = index.row();
+    ui->statusbar->clearMessage();
 }
 
 
 void MainWindow::on_btnRefresh_clicked()
 {
+    model->setFilter("");
     model->select();
     ui->tableView->selectRow(currentRow);
+}
+
+
+void MainWindow::on_btnSearch_clicked()
+{
+    QString Data = ui->enterData->toPlainText();
+    QString filter = "";
+    if(!Data.isEmpty())
+    {
+        filter = "Firstname LIKE '%" + Data + "' OR "
+                 "Lastname LIKE '%" + Data + "' OR "
+                 "Number LIKE '%" + Data + "' OR "
+                 "\"Male/Fimale\" LIKE '" + Data + "'";
+    }
+    model->setFilter(filter);
+    model->select();
 }
 

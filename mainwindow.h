@@ -27,6 +27,8 @@ private slots:
 
     void on_btnRefresh_clicked();
 
+    void on_btnSearch_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
